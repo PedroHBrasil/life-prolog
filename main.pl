@@ -107,18 +107,22 @@ print_population(NRows, NCols, Population) :-
   print_cell(NRows, NCols, 0, 0, Population).
 
 run_loop(NRows, NCols, Population, "y") :-
-  print_population(NRows, NCols, Population),
+  update_population(NRows, NCols, Population, NextPopulation),
+  print_population(NRows, NCols, NextPopulation),
   write("Continue to next step (y|n)?"), nl,
   read_line_to_string(user_input, Input),
-  update_population(NRows, NCols, Population, NextPopulation),
   run_loop(NRows, NCols, NextPopulation, Input).
 run_loop(_, _, _, "n") :- abort().
+run_loop(NRows, NCols, Population, Input) :-
+  Input \= "y",
+  Input \= "n",
+  write("Invalid input. Please enter either 'y' to update the population or 'n' to stop execution."), nl,
+  read_line_to_string(user_input, NewInput),
+  run_loop(NRows, NCols, Population, NewInput).
 
 run(NRows, NCols) :-
   init_population(NRows, NCols, Population),
-  run_loop(NRows, NCols, Population, "y").
-% [
-% cell(dead, 0, 0), cell(alive, 0, 1), cell(alive, 0, 2),
-% cell(alive, 1, 0), cell(dead, 1, 1), cell(dead, 1, 2),
-% cell(dead, 2, 0), cell(dead, 2, 1), cell(alive, 2, 2),
-% ].
+  print_population(NRows, NCols, Population),
+  write("Continue to next step (y|n)?"), nl,
+  read_line_to_string(user_input, Input),
+  run_loop(NRows, NCols, Population, Input).
