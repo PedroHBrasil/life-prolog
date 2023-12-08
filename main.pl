@@ -65,6 +65,7 @@ random_population(Length, Population) :-
   random_population(LengthTemp, PopulationTemp),
   Population = [CellState|PopulationTemp], !.
 
+% Population update
 update_loop(NRows, _, Row, _, _, []) :-
   NRows is Row.
 update_loop(NRows, NCols, Row, Col, OldPopulation, NewPopulation) :-
@@ -79,13 +80,15 @@ update_loop(NRows, NCols, Row, Col, OldPopulation, NewPopulation) :-
   update_loop(NRows, NCols, NextRow, NextCol, OldPopulation, NewPopulationTemp),
   NewPopulation = [NewCellState|NewPopulationTemp].
 
+update_population(NRows, NCols, OldPopulation, NextPopulation) :-
+  update_loop(NRows, NCols, 0, 0, OldPopulation, NextPopulation).
+
+% Population Initialization
 init_population(NRows, NCols, Population) :-
   Length is NRows * NCols,
   random_population(Length, Population).
 
-update_population(NRows, NCols, OldPopulation, NextPopulation) :-
-  update_loop(NRows, NCols, 0, 0, OldPopulation, NextPopulation).
-
+% World display
 print_cell(NRows, _, Row, _, _) :-
   NRows is Row.
 print_cell(NRows, NCols, Row, Col, Population) :-
@@ -103,12 +106,13 @@ print_cell(NRows, NCols, Row, Col, Population) :-
   NextRow is Row),
   print_cell(NRows, NCols, NextRow, NextCol, Population).
 
-print_population(NRows, NCols, Population) :-
+print_world(NRows, NCols, Population) :-
   print_cell(NRows, NCols, 0, 0, Population).
 
+% Program execution
 run_loop(NRows, NCols, Population, "y") :-
   update_population(NRows, NCols, Population, NextPopulation),
-  print_population(NRows, NCols, NextPopulation),
+  print_world(NRows, NCols, NextPopulation),
   write("Continue to next step (y|n)?"), nl,
   read_line_to_string(user_input, Input),
   run_loop(NRows, NCols, NextPopulation, Input).
@@ -122,7 +126,7 @@ run_loop(NRows, NCols, Population, Input) :-
 
 run(NRows, NCols) :-
   init_population(NRows, NCols, Population),
-  print_population(NRows, NCols, Population),
+  print_world(NRows, NCols, Population),
   write("Continue to next step (y|n)?"), nl,
   read_line_to_string(user_input, Input),
   run_loop(NRows, NCols, Population, Input).
