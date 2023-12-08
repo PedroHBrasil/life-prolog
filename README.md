@@ -12,10 +12,16 @@ Then, on your terminal:
 3. Run the command/consult `run({NRows}, {NCols})`, replacing `{NRows}` and `{NCols}` by the number of rows and columns that you want your simulation to have.
 4. Input either `y` to update the population and display it or `n` to abort (finish) the execution.
 
+Here's what it should look like:
+
+![demo](./img/demo.png)
+
 ## Contributing
 
 Contributions are welcome! What I implemented is very basic, but if you feel inspired, you may implement some stuff yourself! Here are some ideas:
 
+- _Custom Initial World Input_: allow the user to set the initial state of the world, instead of the default behavior of generating a random state.
+- _World State Customization_: allow the user to modify the state of cells during execution.
 - _Automatic Population Update_: user inputs the number of next steps to execute and the program runs them without the need of input.
 - _Custom Updates' Time Step_: let the user set a number of seconds or milliseconds between automatic population updates.
 - _Pretty UI_: displaying the game on the terminal is quick, easy and is feasible using pure prolog. If you're interested in trainning some frontend skills, you're more than welcome to implement a UI in whichever platform you choose: web, desktop, mobile (not sure if Prolog would work here), or whatever is feasible!
